@@ -1,0 +1,27 @@
+# Python internals
+__pycache__/
+*.pyc
+
+# Virtual Environments (Essential to ignore these!)
+.venv/
+venv/
+env/
+
+# VS Code (Local settings)
+.vscode/
+
+# If you WANT to share the settings.json we just made,
+# comment out '.vscode/' above and uncomment the lines below:
+# .vscode/*
+# !.vscode/settings.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
+
+# Environment variables (Never share secrets/API keys)
+.env
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+.ipynb_checkpoints/
