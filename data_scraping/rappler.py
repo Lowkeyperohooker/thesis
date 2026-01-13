@@ -8,7 +8,7 @@ import datetime
 # ==========================================
 # 👇 CONFIGURATION 👇
 # ==========================================
-TARGET_SAMPLES_PER_CLASS = 200
+TARGET_SAMPLES_PER_CLASS = 3000
 # ==========================================
 
 class RapplerScraper:
