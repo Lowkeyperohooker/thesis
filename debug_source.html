@@ -1,0 +1,360 @@
+<html><head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 403 | Deflect</title>
+    <script type="text/javascript">
+        var i18n = {
+            'en': {
+                'error_title': "Error 403 - Forbidden",
+                'error_message': "Your requested access to the website is forbidden. You do not have permission to access this page.",
+                'working': "Working",
+                'error': "Forbidden",
+                'your_browser': "Your Browser",
+            },
+            'zh': {
+                'error_title': "Error 403 - Forbidden",
+                'error_message': "拒絕存取，您無權訪問此頁面。",
+                'working': "正常運作",
+                'error': "拒絕存取",
+                'your_browser': "您的瀏覽器",
+            },
+            'uk': {
+                'error_title': "Помилка 403 - Доступ заборонено",
+                'error_message': "Ваш запит на доступ до вебсайту заборонено. Ви не маєте дозволу на доступ до цієї сторінки.",
+                'working': "Працює",
+                'error': "Заборонено",
+                'your_browser': "Ваш браузер",
+            },
+            'be': {
+                "error_title": "Памылка 403 - Доступ забаронены",
+                "error_message": "Ваш запыт на доступ да сайта забаронены. Вы не маеце дазволу на доступ да гэтай старонкі.",
+                "working": "Працую",
+                "error": "Забаронена",
+                "your_browser": "Ваш браўзер"
+            },
+            'ru': {
+                'error_title': "Ошибка 403 - В доступе отказано",
+                'error_message': "Запрос отклонён. У вас недостаточно прав на доступ к странице.",
+                'working': "Работает",
+                'error': "Отклонено",
+                'your_browser': "Ваш браузер",
+            },
+            'es': {
+                'error_title': "Error 403 - Prohibido",
+                'error_message': "El acceso solicitado al sitio web está prohibido. No tiene permiso para acceder a esta página.",
+                'working': "Funcionando",
+                'error': "Prohibido",
+                'your_browser': "Su navegador",
+            },
+        };
+
+        // Define priorities for locales
+        var priorities = {
+            en: 0,
+            ru: 10,
+            uk: 20,
+            be: 15,
+            es: 15,
+            zh: 10,
+            fr: 5,
+        };
+
+        function getLocalizedMessage() {
+            // Get user's preferred languages
+            var userLanguages = navigator.languages || [
+                navigator.language || navigator.userLanguage,
+            ];
+            console.log('userLanguages', userLanguages);
+
+            var highestPriority = -1;
+            var selectedMessage = i18n['en']; // default message
+
+            for (var lang of userLanguages) {
+                var primaryLang = lang.split("-")[0];
+                var locale = lang.split("-")[1];
+                var priority = priorities[primaryLang];
+
+                // Check if the language exists in our messages and priorities
+                if (i18n[primaryLang] && priority > highestPriority) {
+                    highestPriority = priority;
+                    selectedMessage = i18n[primaryLang];
+                }
+            }
+
+            return selectedMessage;
+        }
+
+        function getFavicon(imgElement) {
+            // Build the base URL in a backward-compatible way
+            var origin = window.location.protocol + "//" + window.location.host;
+            var faviconUrl = origin + '/favicon.ico';
+            var fallbackSvg = imgElement.src;
+            var testImage = new Image();
+
+            testImage.src = faviconUrl
+
+            // Set favicon if it loads successfully
+            testImage.addEventListener('load', function() {
+                imgElement.src = faviconUrl;
+            });
+
+            // Fallback to SVG if favicon fails to load
+            testImage.addEventListener('error', function() {
+                console.log('Favicon not found, falling back to SVG');
+                imgElement.src = fallbackSvg;
+            });
+        }
+
+        function setDomainName() {
+            document.getElementsByClassName("website-title")[0].textContent =
+                window.location.hostname;
+            document.getElementsByClassName("website-title-footer")[0].textContent =
+                window.location.hostname;
+        }
+
+        function setTitle() {
+            localizeMsg = getLocalizedMessage();
+            document.getElementsByClassName("error-title")[0].textContent = localizeMsg['error_title'];
+            document.getElementsByClassName("error-message")[0].textContent = localizeMsg['error_message'];
+            document.getElementsByClassName("status-working")[0].textContent = localizeMsg['working'];
+            document.getElementsByClassName("status-error")[0].textContent = localizeMsg['error'];
+            document.getElementsByClassName("main-your-browser")[0].textContent = localizeMsg['your_browser'];
+        }
+
+        function setFavicon() {
+            getFavicon(document.getElementsByClassName("website-favicon")[0])
+        }
+    </script>
+    <style>
+        :root {
+            --background-color: #fff;
+            --font-color: #000;
+            --font-color-lighter: rgb(87, 89, 88);
+            --font-size-main: 3.545rem;
+            --font-size-description: 1.245rem;
+            --box-color: #F2F2F2;
+            --working-color: #137333;
+            --working-color-background: #e6f4ea;
+            --error-color-background: #fce8e6;
+            --error-color: #c5221f;
+            --working-with-error-color: #b05a00;
+            --working-with-error-color-background: #fef7e0;
+            --icon-size: 48px;
+        }
+
+        body,
+        html {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+                sans-serif;
+            margin: 0;
+        }
+        a {
+            color: #e33624;
+            text-decoration: none;
+        }
+        h1,
+        h2 {
+            font-weight: 600;
+            display: flex;
+        }
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 8% 10% 5% 10%;
+        }
+        .header-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+            height: 100%;
+        }
+        .footer {
+            display: flex;
+            justify-content: center;
+            background-color: #ecece2;
+            padding: 0 1rem;
+        }
+        .website {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        .website-favicon {
+            width: 32px;
+            margin-right: 1rem;
+        }
+        .website-title {
+            font-size: 32px;
+            padding-bottom: 0.1rem;  /* visual adjustments */
+        }
+        .error {
+            display: flex;
+            margin: 1rem;
+        }
+        .error-wrapper {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            margin: 1rem;
+        }
+        .error-title {
+            font-size: 30px;
+            text-align: center;
+            color: #423e3e;
+            margin: 0.5rem;
+        }
+        .error-message {
+            font-size: 24px;
+            text-align: center;
+            color: #828080;
+            margin: 0.5rem;
+        }
+        #status {
+            margin: 2rem 1rem;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+        }
+        #status .status-block {
+            background-color: var(--box-color);
+            padding: 2rem;
+            margin: 1rem 1rem;
+            min-height: 3rem;
+            border-radius: 9px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #status img {
+            max-height: 3.5rem;
+        }
+        #status .status-block {
+            min-width: 8rem;
+        }
+        #status .status-block.working-block {
+            background-color: var(--working-color-background);
+        }
+        #status .status-block.error-block {
+            background-color: var(--error-color-background);
+        }
+        #status .status-block.working-with-error-block {
+            background-color: var(--working-with-error-color-background);
+        }
+        #status .status-block .main {
+            font-size: calc(var(--font-size-description) + 0.1rem);
+            margin: 1rem 0 0 0;
+        }
+        #status .status-block .status-text {
+            font-size: calc(var(--font-size-description));
+            font-weight: 600;
+            margin: 0.3rem 0;
+        }
+        .status-working {
+            color: var(--working-color);
+        }
+        .status-error {
+            color: var(--error-color);
+        }
+        .status-working-with-error {
+            color: var(--working-with-error-color);
+        }
+        .footer-wrapper {
+            /* display: flex;
+            justify-content: space-between;
+            flex-direction: column; */
+            text-align: center;
+            margin-bottom: 50px;
+            margin-top: 15px;
+        }
+        .footer-logo svg {
+            width: 50px;
+            height: 80px;
+        }
+        .footer-logo-caption {
+            font-size: 18px;
+        }
+        @media screen and (min-width: 2400px) {
+            .footer-logo svg {
+                width: 2vw;
+                height: 3vw;
+            }
+            .footer-logo-caption {
+                font-size: 1vw;
+            }
+            .website-title {
+                font-size: 2vw;
+            }
+            .website-favicon {
+                width: 2vw;
+            }
+            .footer-title {
+                font-size: 1.7vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+      <div class="header-wrapper">
+        <div class="website">
+          <img class="website-favicon" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%2210%22%20stroke%3D%22%23333%22%20stroke-width%3D%221.5%22%20fill%3D%22%23cce5ff%22%2F%3E%3Cpath%20d%3D%22M12%202c3%202%205%205.5%205%2010s-2%208-5%2010c-3-2-5-5.5-5-10s2-8%205-10Z%22%20stroke%3D%22%23333%22%20stroke-width%3D%221%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M2%2012h20M12%202v20%22%20stroke%3D%22%23333%22%20stroke-width%3D%221%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E" onerror="this.style.display='none'">
+          <span class="website-title">verafiles.org</span>
+        </div>
+        <div class="error">
+            <div class="error-wrapper">
+                <h2 class="error-title">Error 403 - Forbidden</h2>
+                <h2 class="error-message">Your requested access to the website is forbidden. You do not have permission to access this page.</h2>
+                <div id="status">
+                    <div class="status-block working-block" id="client-status-block">
+                        <img src="data:image/svg+xml;base64,ICAgICAgICAgICAgICAgICAgICAgICAgPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNDguNTQgMjI1LjMiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojYmJiNWFhO30uY2xzLTJ7ZmlsbDojZWRlY2UyO308L3N0eWxlPjwvZGVmcz48ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIj48ZyBpZD0iTGF5ZXJfMS0yIiBkYXRhLW5hbWU9IkxheWVyIDEiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTMyLjE3LDE5MS45aDI4NC4zYTE1Ljc5LDE1Ljc5LDAsMCwwLDE1LjctMTUuN1YxNS43QTE1Ljc5LDE1Ljc5LDAsMCwwLDMxNi40NywwSDMyLjE3YTE1Ljc5LDE1Ljc5LDAsMCwwLTE1LjcsMTUuN1YxNzYuMkExNS43MywxNS43MywwLDAsMCwzMi4xNywxOTEuOVoiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik0zMi4yNywyMS42YTUuNDgsNS40OCwwLDAsMSw1LjUtNS41aDI3Mi45YTUuNDgsNS40OCwwLDAsMSw1LjUsNS41VjE3MC43YTUuNDgsNS40OCwwLDAsMS01LjUsNS41SDM3Ljc3YTUuNDgsNS40OCwwLDAsMS01LjUtNS41WiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTM0MC41NywyMDIuNUgyMTIuMTdhOC41Niw4LjU2LDAsMCwxLTguNiw4SDE0NWE4LjcsOC43LDAsMCwxLTguNi04SDhjLTcsLjUtMTAuNCw4LjktNiwxNC40YTIyLjMzLDIyLjMzLDAsMCwwLDE3LjQsOC40aDMwOS44YTIyLjE5LDIyLjE5LDAsMCwwLDE3LjQtOC40QzM1MSwyMTEuNCwzNDcuNTcsMjAzLDM0MC41NywyMDIuNVoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMzkuNjcsNjIuNmExMSwxMSwwLDEsMS0xMSwxMUExMSwxMSwwLDAsMSwxMzkuNjcsNjIuNloiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0yMjEuNTcsMTEzLjZjLTI1LjUsMjUuMi02My42LDI1LjItODkuMiwwLTItMi0yLjQtNS4yLS44LTYuOXM0LjEtMS41LDUuOS4yYzIyLjYsMjIuNCw1Ni40LDIyLjQsNzksMCwxLjgtMS43LDQuNC0xLjksNS45LS4yUzIyMy42NywxMTEuNiwyMjEuNTcsMTEzLjZaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjE0LjM3LDg0LjdhMTEsMTEsMCwxLDEsMTEtMTFBMTEsMTEsMCwwLDEsMjE0LjM3LDg0LjdaIi8+PC9nPjwvZz48L3N2Zz4K">
+                        <div class="main main-your-browser">Your Browser</div>
+                        <div class="status-text status-working">Working</div>
+                    </div>
+                    <div class="status-block error-block" id="edge-status-block">
+                        <img src="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%3C!--%20Created%20with%20Inkscape%20(http%3A%2F%2Fwww.inkscape.org%2F)%20--%3E%3Csvg%20%20%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20%20%20xmlns%3Acc%3D%22http%3A%2F%2Fcreativecommons.org%2Fns%23%22%20%20%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%20%20%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20%20%20xmlns%3Asodipodi%3D%22http%3A%2F%2Fsodipodi.sourceforge.net%2FDTD%2Fsodipodi-0.dtd%22%20%20%20xmlns%3Ainkscape%3D%22http%3A%2F%2Fwww.inkscape.org%2Fnamespaces%2Finkscape%22%20%20%20width%3D%22507.6911%22%20%20%20height%3D%22342.59567%22%20%20%20id%3D%22svg3267%22%20%20%20version%3D%221.1%22%20%20%20inkscape%3Aversion%3D%220.48.4%20r9939%22%20%20%20sodipodi%3Adocname%3D%22deflect.png%22%3E%3Cdefs%20%20%20%20%20id%3D%22defs3269%22%20%2F%3E%3Csodipodi%3Anamedview%20%20%20%20%20id%3D%22base%22%20%20%20%20%20pagecolor%3D%22%23ffffff%22%20%20%20%20%20bordercolor%3D%22%23666666%22%20%20%20%20%20borderopacity%3D%221.0%22%20%20%20%20%20inkscape%3Apageopacity%3D%220.0%22%20%20%20%20%20inkscape%3Apageshadow%3D%222%22%20%20%20%20%20inkscape%3Azoom%3D%221.0761588%22%20%20%20%20%20inkscape%3Acx%3D%22167.32143%22%20%20%20%20%20inkscape%3Acy%3D%22218.81304%22%20%20%20%20%20inkscape%3Adocument-units%3D%22px%22%20%20%20%20%20inkscape%3Acurrent-layer%3D%22layer1%22%20%20%20%20%20showgrid%3D%22false%22%20%20%20%20%20fit-margin-top%3D%220%22%20%20%20%20%20fit-margin-left%3D%220%22%20%20%20%20%20fit-margin-right%3D%220%22%20%20%20%20%20fit-margin-bottom%3D%220%22%20%20%20%20%20inkscape%3Awindow-width%3D%221364%22%20%20%20%20%20inkscape%3Awindow-height%3D%22718%22%20%20%20%20%20inkscape%3Awindow-x%3D%220%22%20%20%20%20%20inkscape%3Awindow-y%3D%220%22%20%20%20%20%20inkscape%3Awindow-maximized%3D%221%22%20%2F%3E%3Cmetadata%20%20%20%20%20id%3D%22metadata3272%22%3E%3Crdf%3ARDF%3E%3Ccc%3AWork%20%20%20%20%20%20%20%20%20rdf%3Aabout%3D%22%22%3E%3Cdc%3Aformat%3Eimage%2Fsvg%2Bxml%3C%2Fdc%3Aformat%3E%3Cdc%3Atype%20%20%20%20%20%20%20%20%20%20%20rdf%3Aresource%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fdcmitype%2FStillImage%22%20%2F%3E%3Cdc%3Atitle%3E%3C%2Fdc%3Atitle%3E%3C%2Fcc%3AWork%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cg%20%20%20%20%20inkscape%3Alabel%3D%22Layer%201%22%20%20%20%20%20inkscape%3Agroupmode%3D%22layer%22%20%20%20%20%20id%3D%22layer1%22%20%20%20%20%20transform%3D%22translate(-207.67857%2C-482.35051)%22%3E%3Cpath%20%20%20%20%20%20%20inkscape%3Aconnector-curvature%3D%220%22%20%20%20%20%20%20%20d%3D%22m%20681.72748%2C536.25071%20c%20-3.05838%2C0.90223%20-9.12621%2C1.79527%20-13.93398%2C2.67609%20-22.44851%2C4.08599%20-44.49025%2C7.83557%20-67.01522%2C11.39246%20-45.06218%2C7.05874%20-90.24057%2C13.27643%20-135.51377%2C18.74481%20-45.27931%2C5.46839%20-90.6565%2C10.21194%20-136.14378%2C14.1236%20-22.74518%2C1.92067%20-46.12343%2C3.65171%20-68.94201%2C5.05856%20-4.04623%2C0.23856%20-9.68283%2C0.47405%20-12.74121%2C0.70037%20l%200%2C-9.23019%20c%203.05838%2C-0.66367%207.71018%2C-1.32733%2011.28848%2C-1.98183%2022.45463%2C-4.07988%2045.53011%2C-7.82945%2068.05202%2C-11.38941%2045.06523%2C-7.05874%2090.18245%2C-13.27642%20135.45565%2C-18.76927%2045.2732%2C-5.50203%2090.53417%2C-10.24864%20136.02145%2C-14.15725%2022.75129%2C-1.92372%2045.29155%2C-3.65476%2068.11319%2C-5.05244%205.27264%2C-0.31807%2012.3008%2C-0.61779%2015.35918%2C-0.90834%20l%200%2C8.79284%20z%20m%200%2C47.28868%20-10.70433%2C1.26922%20-10.70433%2C1.26923%200%2C51.07801%20-15.2919%2C1.95124%200%2C-51.08106%20-24.46704%2C2.58433%200%2C-12.97365%2049.57328%2C-5.8415%2011.59432%2C-1.22641%200%2C12.97059%20z%20m%20-105.22051%2C47.24585%203.47432%2C2.04606%20c%200.7279%2C0.48322%202.16228%2C0.77989%203.11037%2C0.66367%20l%2012.85438%2C-1.55978%20c%200.95421%2C-0.1101%202.39471%2C-0.6392%203.22659%2C-1.16524%20l%209.20878%2C-5.72529%206.79878%2C10.05902%20c%20-4.87812%2C4.16857%20-10.67681%2C7.05568%20-13.88811%2C8.46253%20-1.34874%2C0.58721%20-3.61806%2C1.13466%20-5.04021%2C1.30899%20l%20-18.33498%2C2.22038%20c%20-1.42521%2C0.17127%20-3.71899%2C0.12846%20-4.96681%2C-0.367%20-1.52002%2C-0.59944%20-3.78934%2C-1.67905%20-6.47765%2C-3.76487%20-2.76784%2C-2.14086%20-4.59063%2C-4.02788%20-5.57543%2C-5.34605%20-0.77377%2C-1.03679%20-1.50472%2C-3.05226%20-1.50472%2C-4.39795%20l%200%2C-13.87281%200%2C-4.05235%200%2C-13.87587%20c%200%2C-1.34263%200.73095%2C-3.53243%201.50472%2C-4.74967%200.9848%2C-1.55977%202.94828%2C-3.89026%205.71%2C-6.70702%202.69443%2C-2.7342%204.8934%2C-4.3949%206.41342%2C-5.36135%201.2417%2C-0.79823%203.5049%2C-1.39156%204.92705%2C-1.56283%20l%2018.32275%2C-2.22038%20c%201.42215%2C-0.17421%203.67924%2C-0.16515%205.03104%2C0.0979%203.20824%2C0.63002%208.99775%2C2.08887%2013.87587%2C5.07691%20l%20-6.8049%2C11.74112%20-9.21184%2C-3.52937%20c%20-0.83493%2C-0.32113%20-2.30296%2C-0.48628%20-3.25717%2C-0.37618%20l%20-12.90025%2C1.56283%20c%20-0.94504%2C0.1194%20-2.46811%2C0.75848%20-3.19295%2C1.42215%20l%20-3.30305%2C2.80453%20c%20-0.72789%2C0.66367%20-1.82279%2C1.96654%20-1.82279%2C2.86264%20l%200%2C12.79321%200%2C13.08375%20c%200%2C0.8961%201.0949%2C1.93901%201.82279%2C2.42835%20m%20-35.46497%2C-17.49699%200%2C12.97365%20-27.52542%2C3.21741%200%2C12.16318%2033.64218%2C-3.95143%200%2C12.97059%20-32.83171%2C4.0126%20-10.53918%2C1.30899%20c%20-2.84124%2C0.34253%20-5.56319%2C-1.59648%20-5.56319%2C-4.28174%20l%200%2C-8.1047%200%2C-12.16318%200%2C-12.97671%200%2C-12.97059%200%2C-8.11082%20c%200%2C-2.68832%202.74336%2C-5.11973%205.5846%2C-5.46839%20l%2011.5882%2C-1.32122%2031.76128%2C-3.87496%200%2C12.96753%20-33.64218%2C3.85356%200%2C12.97059%2027.52542%2C-3.21436%20z%20m%20-55.05084%2C31.57166%200%2C12.9767%20-30.49511%2C3.84745%20-9.91221%2C1.36403%20c%20-2.84735%2C0.34254%20-5.46838%2C-1.59035%20-5.46838%2C-4.27255%20l%200%2C-8.11389%200%2C-51.08106%2015.2919%2C-1.9543%200%2C51.08412%2030.5838%2C-3.8505%20z%20m%20-61.16761%2C-17.21257%200%2C12.97059%20-27.52542%2C3.22048%200%2C25.13377%20-15.2919%2C1.9543%200%2C-25.13988%200%2C-12.97365%200%2C-12.97365%200%2C-8.10165%20c%200%2C-2.69137%201.66376%2C-5.15949%204.50806%2C-5.50202%20l%2010.50859%2C-1.36098%2030.85905%2C-3.81075%200%2C12.97671%20-30.5838%2C3.8505%200%2C12.97365%2027.52542%2C-3.21742%20z%20m%20-64.22598%2C7.48692%200%2C12.97059%20-27.52542%2C3.22047%200%2C12.16318%2036.70056%2C-3.95448%200%2C12.97364%20-34.26303%2C3.99425%20-11.96744%2C1.30287%20c%20-2.84429%2C0.34254%20-5.76199%2C-1.56895%20-5.76199%2C-4.25727%20l%200%2C-8.11082%200%2C-12.16012%200%2C-12.97671%200%2C-12.97059%200%2C-8.10776%20c%200%2C-2.68832%202.83512%2C-5.13502%205.67941%2C-5.4745%20l%2011.68607%2C-1.34263%2031.5686%2C-3.8505%200%2C12.97365%20-33.64218%2C3.85355%200%2C12.97059%2027.52542%2C-3.21741%20z%20m%20321.12991%2C45.44753%20c%20-3.05838%2C0.90222%20-9.13538%2C1.79832%20-13.9401%2C2.67608%20-10.90618%2C1.98795%20-21.37196%2C3.89026%20-32.29955%2C5.73446%20-11.57291%2C1.94513%20-23.16111%2C3.82909%20-34.74625%2C5.66412%20-45.05912%2C7.05568%20-90.27727%2C13.27337%20-135.55658%2C18.73564%20-45.2732%2C5.4745%20-90.72991%2C10.2211%20-136.21108%2C14.12971%20-11.38023%2C0.96034%20-22.91032%2C1.87173%20-34.30279%2C2.72196%20-11.3894%2C0.85023%20-23.08465%2C1.63318%20-34.49241%2C2.33355%20-4.04623%2C0.23855%20-9.68283%2C0.48016%20-12.74121%2C0.70648%20l%200%2C-9.23325%20c%203.05838%2C-0.66367%207.74382%2C-1.33039%2011.31907%2C-1.97877%2022.45156%2C-4.08294%2045.55762%2C-7.83251%2068.08259%2C-11.39552%2045.06218%2C-7.05569%2090.24057%2C-13.27337%20135.51377%2C-18.76928%2045.2732%2C-5.49897%2090.65038%2C-10.24558%20136.13461%2C-14.15418%2022.75129%2C-1.92067%2045.05911%2C-3.65783%2067.88075%2C-5.05551%205.27264%2C-0.31501%2012.3008%2C-0.61779%2015.35918%2C-0.90834%20l%200%2C8.79285%20z%20m%20-434.28997%2C-6.49294%200%2C-12.16012%200%2C-0.81047%200%2C-12.16012%200%2C-0.81353%200%2C-12.16624%200%2C-8.10471%20c%200%2C-2.68525%202.49564%2C-5.14113%205.34299%2C-5.48979%20l%2010.24863%2C-1.21112%201.08879%2C-0.13456%2023.98687%2C-2.91158%20c%201.42521%2C-0.16834%203.63947%2C-0.12234%204.89035%2C0.37006%201.52002%2C0.60556%203.64559%2C1.72799%206.33391%2C3.81074%202.76783%2C2.14699%204.30314%2C4.02789%205.28793%2C5.34605%200.77072%2C1.03679%200.92975%2C3.06756%200.92975%2C4.4163%20l%200%2C13.86976%200%2C4.05541%200%2C13.87281%20c%200%2C1.34569%20-0.15903%2C3.49573%20-0.92975%2C4.72214%20-0.98479%2C1.55671%20-2.37024%2C3.85356%20-5.13807%2C6.66727%20-2.68832%2C2.74336%20-4.8873%2C4.39489%20-6.40731%2C5.36745%20-1.24782%2C0.79212%20-3.5049%2C1.38851%20-4.92705%2C1.55978%20l%20-24.00828%2C2.90852%20-1.20195%2C0.13163%20-10.15076%2C1.21724%20c%20-2.83818%2C0.34559%20-5.34605%2C-1.55366%20-5.34605%2C-4.24198%20l%200%2C-8.11082%20z%20M%20706.86125%2C482.36206%20c%20-2.881%2C0.14362%20-5.79869%2C0.28749%20-8.64604%2C0.43429%20-26.72107%2C1.45885%20-52.83046%2C3.37645%20-79.47201%2C5.55096%20-53.25557%2C4.42547%20-106.1105%2C10.0009%20-159.11834%2C16.58865%20-53.00478%2C6.59081%20-105.76184%2C14.15724%20-158.52501%2C22.86751%20-26.36936%2C4.40712%20-53.34427%2C9.04669%20-79.6341%2C14.15418%20-2.09805%2C0.40982%20-4.64262%2C0.82271%20-6.89359%2C1.23865%20-3.64253%2C0.66366%20-6.89359%2C5.07691%20-6.89359%2C9.81128%20l%200%2C215.61579%20c%200%2C4.73743%203.63947%2C8.40443%207.75911%2C8.22093%202.54763%2C-0.11328%205.29711%2C-0.22632%207.60619%2C-0.34866%2026.71801%2C-1.46496%2054.15474%2C-3.37033%2080.79017%2C-5.53566%205.09526%2C-0.42512%2010.22416%2C-0.86858%2015.31331%2C-1.31205%20l%2068.93588%2C53.71127%20c%203.88721%2C2.98804%206.15652%2C1.64541%206.15652%2C-3.09202%20l%200%2C-58.08475%20c%2024.46704%2C-2.41001%2045.79007%2C-4.9974%2068.23552%2C-7.77135%2053.0109%2C-6.54187%20106.32458%2C-14.11136%20159.08776%2C-22.82469%2026.36935%2C-4.39489%2051.95882%2C-9.0681%2078.24865%2C-14.18171%202.6455%2C-0.51686%205.21454%2C-1.03679%207.8111%2C-1.56589%204.3949%2C-0.89304%207.74688%2C-5.64577%207.74688%2C-10.38626%20l%200%2C-215.01941%20c%200%2C-4.73437%20-3.65782%2C-8.31267%20-8.50841%2C-8.07106%22%20%20%20%20%20%20%20style%3D%22fill%3A%23e43624%3Bfill-opacity%3A1%3Bfill-rule%3Anonzero%3Bstroke%3Anone%22%20%20%20%20%20%20%20id%3D%22path258%22%20%2F%3E%3Cg%20%20%20%20%20%20%20id%3D%22g260%22%20%20%20%20%20%20%20transform%3D%22matrix(3.0583801%2C0%2C0%2C-3.0583801%2C286.01959%2C668.42705)%22%3E%3Cpath%20%20%20%20%20%20%20%20%20inkscape%3Aconnector-curvature%3D%220%22%20%20%20%20%20%20%20%20%20d%3D%22m%200%2C0%200.997%2C0.91%20c%200.237%2C0.217%200.427%2C0.629%200.428%2C0.922%20l%200.007%2C4.231%20-0.029%2C4.231%20c%20-0.002%2C0.292%20-0.222%2C0.657%20-0.459%2C0.815%20l%20-1.056%2C0.669%20c%20-0.237%2C0.159%20-0.797%2C0.255%20-1.107%2C0.218%20l%20-6.396%2C-0.75%200%2C-3.977%200%2C-0.265%200%2C-3.977%200%2C-0.265%200%2C-3.977%206.396%2C0.751%20C%20-0.909%2C-0.426%20-0.236%2C-0.218%200%2C0%22%20%20%20%20%20%20%20%20%20style%3D%22fill%3A%23e43624%3Bfill-opacity%3A1%3Bfill-rule%3Anonzero%3Bstroke%3Anone%22%20%20%20%20%20%20%20%20%20id%3D%22path262%22%20%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E">
+                        <div class="main">Deflect</div>
+                        <div class="status-text status-error">Forbidden</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="footer-wrapper">
+        <figure class="footer-logo">
+          <a href="https://deflect.ca/" target="_blank">
+             <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="412.000000pt" height="468.000000pt" viewBox="0 0 412.000000 468.000000" preserveAspectRatio="xMidYMid meet"> <g transform="translate(0.000000,468.000000) scale(0.100000,-0.100000)" fill="#e33624" stroke="#e33624"> <path d="M1190 4486 c-459 -100 -915 -199 -1012 -221 l-178 -38 0 -946 c0 -559 4 -993 10 -1061 33 -373 184 -727 458 -1070 170 -214 457 -475 742 -674 271 -191 770 -461 849 -460 24 0 87 25 192 76 539 261 1020 615 1333 979 263 306 416 598 498 949 22 94 22 103 25 1151 l4 1057 -23 5 c-145 36 -2021 437 -2039 436 -13 -1 -400 -83 -859 -183z m2590 -655 c0 -31 -11 -56 -50 -114 -43 -65 -50 -81 -50 -125 0 -50 0 -50 -35 -54 -20 -2 -38 -2 -40 1 -3 2 -5 26 -5 52 0 41 -6 54 -47 105 -40 49 -47 64 -47 103 -1 46 -1 46 35 49 35 3 37 2 44 -35 3 -21 18 -50 32 -65 l26 -28 23 34 c13 18 26 46 29 62 12 52 14 54 50 54 34 0 35 -1 35 -39z m-346 -22 c25 -19 27 -27 26 -83 0 -33 2 -80 6 -103 6 -40 3 -46 -29 -78 -19 -19 -43 -35 -53 -36 -11 0 -50 -4 -89 -8 -44 -5 -75 -4 -82 2 -15 11 -18 273 -4 296 5 7 35 17 67 21 104 13 130 11 158 -11z m-445 -58 c30 -28 31 -31 31 -121 l0 -92 -38 -38 c-38 -39 -65 -46 -207 -53 l-30 -2 -3 149 c-2 96 1 153 8 160 11 11 86 22 166 25 34 1 48 -5 73 -28z m-309 -35 l0 -35 -57 -6 c-32 -3 -65 -7 -73 -8 -8 -1 -17 -13 -18 -26 -4 -24 -3 -24 63 -17 l66 7 -3 -38 c-2 -24 -8 -39 -18 -40 -114 -15 -110 -13 -110 -39 0 -22 3 -24 33 -20 17 3 54 8 80 11 l48 6 -3 -38 -3 -38 -105 -12 c-58 -7 -111 -11 -117 -8 -16 6 -19 300 -3 310 12 8 120 22 178 24 41 1 42 1 42 -33z m-260 -27 c0 -31 -4 -34 -62 -44 l-38 -6 0 -124 0 -125 -40 0 -40 0 0 121 0 121 -47 -4 c-48 -3 -48 -3 -51 30 -2 20 2 34 10 37 19 7 252 32 261 27 4 -2 7 -17 7 -33z m-335 -13 c40 -17 39 -16 23 -51 -10 -23 -16 -26 -46 -20 -19 3 -52 3 -74 0 l-39 -7 3 -81 3 -82 40 3 c22 1 53 8 69 14 25 10 30 9 46 -13 13 -16 15 -27 9 -35 -18 -21 -73 -42 -132 -49 -56 -6 -58 -6 -92 28 -35 35 -35 35 -35 126 0 89 1 92 33 127 46 50 127 67 192 40z m-267 -50 c4 -34 -10 -46 -54 -46 -64 0 -94 -11 -94 -34 0 -21 4 -22 60 -18 l60 4 0 -35 0 -35 -60 -7 c-55 -6 -60 -9 -60 -31 0 -23 1 -24 75 -17 l75 6 0 -36 c0 -35 0 -36 -52 -42 -29 -4 -82 -7 -118 -8 l-65 -2 -3 146 c-2 109 1 149 10 157 13 10 154 31 198 28 20 -1 26 -7 28 -30z m-268 -30 c0 -35 -15 -46 -67 -46 -23 0 -23 -2 -23 -119 0 -66 -3 -122 -7 -124 -5 -3 -24 -7 -43 -9 l-35 -3 -3 123 -3 123 -45 -7 -45 -6 3 38 3 39 95 11 c52 6 112 12 133 13 36 1 37 0 37 -33z m-327 -34 c26 -27 27 -33 27 -128 0 -100 0 -100 -32 -131 -34 -32 -70 -42 -157 -45 -38 -1 -48 3 -73 30 -26 30 -28 38 -28 122 0 89 0 90 36 129 37 42 53 47 145 50 49 1 59 -2 82 -27z m-342 -25 c31 -21 34 -27 37 -81 3 -49 0 -62 -19 -82 l-22 -23 22 -50 c11 -27 21 -52 21 -55 0 -3 -20 -6 -44 -6 -42 0 -45 2 -60 40 -13 34 -20 40 -45 40 -29 0 -30 -2 -33 -47 l-3 -48 -42 -3 -43 -3 0 155 c0 178 -13 159 115 175 39 5 73 9 76 10 3 0 21 -9 40 -22z m-299 -44 c24 -23 28 -35 28 -81 0 -48 -4 -58 -33 -87 -26 -26 -43 -33 -90 -39 l-57 -7 0 -39 c0 -44 -1 -46 -53 -55 l-37 -7 0 155 c0 114 3 158 13 164 14 9 91 20 156 22 36 1 50 -4 73 -26z m3198 -312 l0 -40 -52 -10 c-776 -156 -2569 -374 -3313 -403 l-60 -2 -3 42 c-2 23 1 42 6 42 6 0 142 22 303 50 908 153 1948 278 2864 344 283 20 255 23 255 -23z m0 -355 c0 -62 2 -61 -97 -71 l-63 -7 0 -198 c0 -110 -3 -201 -7 -203 -5 -3 -38 -8 -75 -12 l-68 -7 0 202 0 202 -47 -6 c-27 -4 -65 -9 -85 -12 l-38 -6 0 56 c0 31 1 56 3 57 4 1 441 56 460 58 14 1 17 -8 17 -53z m-562 -51 l42 -17 -27 -49 c-29 -54 -31 -55 -86 -36 -46 17 -152 5 -179 -20 -15 -14 -18 -33 -18 -134 0 -107 2 -119 20 -129 29 -16 129 -1 177 26 23 13 46 24 51 24 17 0 62 -73 52 -85 -29 -35 -116 -68 -213 -80 -93 -13 -103 -12 -136 5 -20 10 -47 30 -61 45 -24 26 -25 30 -25 180 l0 153 31 38 c49 61 79 77 162 91 91 14 152 11 210 -12z m-500 -74 c2 -24 -1 -48 -6 -53 -6 -6 -214 -38 -249 -38 -2 0 -3 -21 -3 -46 l0 -47 48 6 c26 4 71 9 100 13 l52 7 0 -56 c0 -62 5 -60 -132 -73 l-68 -7 0 -43 c0 -29 4 -44 13 -44 6 0 66 7 132 15 65 8 121 15 122 15 2 0 3 -25 3 -55 0 -63 19 -54 -185 -80 -144 -18 -187 -19 -203 -3 -9 9 -12 76 -12 238 0 205 2 228 18 243 12 11 65 22 167 36 203 26 199 26 203 -28z m-718 -241 l0 -199 28 4 c49 9 183 25 203 25 16 0 19 -7 19 -49 0 -28 -4 -52 -9 -55 -4 -3 -85 -15 -179 -27 -139 -17 -175 -19 -187 -9 -13 10 -15 51 -15 256 l0 243 28 4 c15 2 46 5 70 6 l42 1 0 -200z m-210 126 c0 -64 8 -59 -137 -76 l-103 -12 0 -46 0 -45 68 7 c37 4 82 9 100 12 l32 6 0 -55 c0 -63 2 -62 -100 -72 -106 -11 -100 -3 -100 -110 0 -52 -3 -96 -7 -98 -5 -3 -38 -8 -75 -12 l-68 -7 0 239 c0 190 3 243 14 258 12 16 44 23 183 41 92 12 174 22 181 23 8 1 12 -16 12 -53z m-482 -63 c3 -52 3 -52 -30 -57 -41 -7 -208 -26 -225 -26 -9 0 -13 -16 -13 -46 l0 -47 77 7 c42 4 89 10 105 13 l28 6 0 -56 c0 -64 3 -62 -105 -72 -103 -9 -105 -10 -105 -56 0 -46 -5 -45 164 -25 121 14 119 15 114 -55 l-3 -44 -185 -22 c-123 -14 -190 -18 -202 -12 -16 9 -18 30 -18 243 0 204 2 235 16 247 15 13 313 59 359 55 17 -1 20 -9 23 -53z m-534 -64 l46 -41 0 -152 c0 -151 0 -153 -27 -187 -52 -68 -85 -85 -180 -98 -172 -22 -241 -25 -258 -11 -13 10 -15 48 -15 241 0 227 0 229 23 243 24 17 203 43 303 45 58 1 64 -1 108 -40z m3006 -418 l0 -39 -117 -22 c-519 -97 -1269 -204 -1963 -279 -492 -54 -1157 -111 -1292 -111 l-58 0 0 40 c0 22 2 40 4 40 2 0 149 24 327 54 732 123 1590 233 2349 301 308 27 626 52 703 54 l47 1 0 -39z"></path> <path d="M3290 3724 c0 -23 3 -25 43 -22 35 2 43 7 45 26 3 20 -1 22 -42 22 -43 0 -46 -2 -46 -26z"></path> <path d="M3290 3601 c0 -29 1 -29 43 -24 73 10 76 46 4 51 -46 3 -47 3 -47 -27z"></path> <path d="M2820 3612 l0 -89 33 4 c81 10 77 5 77 93 l0 80 -55 0 -55 0 0 -88z"></path> <path d="M1063 3503 c-9 -3 -13 -30 -13 -84 l0 -79 48 0 c26 0 53 5 60 12 7 7 12 42 12 85 l0 73 -47 -1 c-27 0 -54 -3 -60 -6z"></path> <path d="M763 3473 c-19 -4 -23 -11 -23 -41 l0 -38 40 4 c45 5 63 21 58 54 -3 24 -28 31 -75 21z"></path> <path d="M468 3442 c-37 -3 -38 -4 -38 -43 0 -39 0 -39 38 -39 43 0 62 14 62 46 0 29 -18 40 -62 36z"></path> <path d="M615 2385 c-5 -2 -36 -6 -67 -10 l-58 -6 0 -146 0 -145 68 7 c73 8 116 25 126 50 8 23 7 208 -2 221 -7 10 -47 35 -54 33 -2 0 -7 -2 -13 -4z"></path> </g> </svg>
+          </a>
+          <figcaption class="footer-logo-caption">
+            <div>
+              <span class="website-title-footer">verafiles.org</span> is protected by
+              <a href="https://deflect.ca/" target="_blank">Deflect</a>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setDomainName();
+            setFavicon();
+            setTitle();
+        });
+    </script>
+  
+
+</body></html>
